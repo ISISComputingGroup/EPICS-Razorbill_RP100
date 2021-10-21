@@ -9,7 +9,8 @@ class SimulatedRzbrp100(StateMachineDevice):
         """
         Initialize all of the device's attributes.
         """
-        pass
+        self.connected = True
+        self.id = "Razorbill RP100 strain gauge PSU - EMULATOR"
 
     def _get_state_handlers(self):
         return {
@@ -22,4 +23,3 @@ class SimulatedRzbrp100(StateMachineDevice):
     def _get_transition_handlers(self):
         return OrderedDict([
         ])
-

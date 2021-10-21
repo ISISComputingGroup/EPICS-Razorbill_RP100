@@ -7,11 +7,15 @@ from lewis.utils.replies import conditional_reply
 @has_log
 class Rzbrp100StreamInterface(StreamInterface):
 
+    in_terminator = "\r\n"
+    out_terminator = "\r\n"
+
     def __init__(self):
         super(Rzbrp100StreamInterface, self).__init__()
         # Commands that we expect via serial during normal operation
         self.commands = {
-            CmdBuilder(self.catch_all).arg("^#9.*$").build()  # Catch-all command for debugging
+            CmdBuilder(self.catch_all).arg("^#9.*$").eos().build(),  # Catch-all command for debugging
+            CmdBuilder("get_id").escape("*IDN?").eos().build(),
         }
 
     def handle_error(self, request, error):
@@ -26,4 +30,17 @@ class Rzbrp100StreamInterface(StreamInterface):
         self.log.error("An error occurred at request " + repr(request) + ": " + repr(error))
 
     def catch_all(self, command):
+        """
+        Catch-all command for debugging
+        """
         pass
+
+    @conditional_reply("connected")
+    def get_id(self):
+        """
+            Gets the device Identification string
+
+        :return:  Device ID string
+        """
+
+        return "{}".format(self._device.id)
