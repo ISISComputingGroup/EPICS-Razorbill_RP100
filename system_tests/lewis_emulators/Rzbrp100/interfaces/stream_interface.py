@@ -7,19 +7,21 @@ from lewis.utils.replies import conditional_reply
 @has_log
 class Rzbrp100StreamInterface(StreamInterface):
 
-    def __init__(self):
-        super(Rzbrp100StreamInterface, self).__init__()
-        # Commands that we expect via serial during normal operation
-        self.commands = {
-            CmdBuilder(self.catch_all).arg("^#9.*$").eos().build(),  # Catch-all command for debugging
-            CmdBuilder("get_id").escape("*IDN?").eos().build(),
-            # TODO: discover correct syntax for input parameters
-            CmdBuilder("get_channel_output").escape("OUTP%1?").eos().build(),
-            CmdBuilder("set_channel_output").escape("OUTP%1%1").eos().build(),
-        }
+    in_terminator = "\r\n"
+    out_terminator = "\r\n"
 
-        in_terminator = "\r\n"
-        out_terminator = "\r\n"
+    commands = {
+        # CmdBuilder(self.catch_all).arg("^#9.*$").eos().build(),  # Catch-all command for debugging
+        CmdBuilder("get_id").escape("*IDN?").eos().build(),
+
+        CmdBuilder("get_voltage").escape("SOUR").int().escape(":VOLT:NOW?").eos().build(),
+        CmdBuilder("set_voltage").escape("SOUR").int().escape(":VOLT ").float().eos().build(),
+
+        # Commands for output on and off (not currently required)
+        # CmdBuilder("get_channel_output").escape("OUTP%1?").eos().build(),
+        # CmdBuilder("set_channel_output").escape("OUTP%1%1").eos().build(),
+    }
+
 
     def handle_error(self, request, error):
         """
@@ -48,27 +50,26 @@ class Rzbrp100StreamInterface(StreamInterface):
 
         return "{}".format(self._device.id)
 
-    # TODO: finish implementation in 'device.py'
 
     @conditional_reply("connected")
-    def get_channel_output(self, channel):
+    def get_voltage(self, channel):
         """
-            Gets the output status of a channel
+            Gets the voltage of a channel
 
             Args:
                 channel: channel number
         """
 
-        return "{}".format(self._device.output(channel))
+        return "{}".format(float(self._device.voltages[channel-1]))
 
     @conditional_reply("connected")
-    def set_channel_output(self, channel, output):
+    def set_voltage(self, channel, output):
         """
-            Sets the output status of a channel
+            Sets the voltage of a channel
 
             Args:
                 channel: channel number
-                output: desired output status (ON, OFF)
+                output: desired output voltage
         """
 
-        self._device.set_output(channel, output)
+        self._device.voltages[channel-1] = output

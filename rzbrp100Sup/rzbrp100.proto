@@ -1,28 +1,28 @@
-Terminator = CR LF;
+OutTerminator = "\r\n";
+InTerminator = "\r\n";
 replytimeout = 1000;
-extrainput   = Ignore;
+
 
 getID {
     out "*IDN?";
-    in "%s";
+    in "%39c";
+    ExtraInput=Ignore;
 }
 
 getCH1Voltage {
     out "SOUR1:VOLT:NOW?";
-    in "%e";
+    in "%f";
 }
 
 getCH2Voltage {
     out "SOUR2:VOLT:NOW?";
-    in "%e";
+    in "%f";
 }
 
 setCH1Voltage {
-    out "SOUR1:VOLT\$1";
-
+    out "SOUR1:VOLT %f";
 }
 
 setCH2Voltage {
-    out "SOUR2:VOLT\$1";
-
+    out "SOUR2:VOLT %f";
 }
