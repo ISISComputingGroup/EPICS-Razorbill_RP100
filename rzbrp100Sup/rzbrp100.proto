@@ -1,18 +1,28 @@
-getIDN {
+Terminator = CR LF;
+replytimeout = 1000;
+extrainput   = Ignore;
+
+getID {
     out "*IDN?";
-    in "%\$1[^\r\n]";
-    ExtraInput = Ignore;
+    in "%s";
 }
 
-cmd {
-    out "\$1";
+getCH1Voltage {
+    out "SOUR1:VOLT:NOW?";
+    in "%e";
 }
 
-setD {
-    out "\$1 %d";
+getCH2Voltage {
+    out "SOUR2:VOLT:NOW?";
+    in "%e";
 }
-getD {
-    out "\$1?";
-    in "%d";
-    ExtraInput = Ignore;
+
+setCH1Voltage {
+    out "SOUR1:VOLT\$1";
+
+}
+
+setCH2Voltage {
+    out "SOUR2:VOLT\$1";
+
 }

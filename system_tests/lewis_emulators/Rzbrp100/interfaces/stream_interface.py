@@ -7,16 +7,19 @@ from lewis.utils.replies import conditional_reply
 @has_log
 class Rzbrp100StreamInterface(StreamInterface):
 
-    in_terminator = "\r\n"
-    out_terminator = "\r\n"
-
     def __init__(self):
         super(Rzbrp100StreamInterface, self).__init__()
         # Commands that we expect via serial during normal operation
         self.commands = {
             CmdBuilder(self.catch_all).arg("^#9.*$").eos().build(),  # Catch-all command for debugging
             CmdBuilder("get_id").escape("*IDN?").eos().build(),
+            # TODO: discover correct syntax for input parameters
+            CmdBuilder("get_channel_output").escape("OUTP%1?").eos().build(),
+            CmdBuilder("set_channel_output").escape("OUTP%1%1").eos().build(),
         }
+
+        in_terminator = "\r\n"
+        out_terminator = "\r\n"
 
     def handle_error(self, request, error):
         """
@@ -44,3 +47,28 @@ class Rzbrp100StreamInterface(StreamInterface):
         """
 
         return "{}".format(self._device.id)
+
+    # TODO: finish implementation in 'device.py'
+
+    @conditional_reply("connected")
+    def get_channel_output(self, channel):
+        """
+            Gets the output status of a channel
+
+            Args:
+                channel: channel number
+        """
+
+        return "{}".format(self._device.output(channel))
+
+    @conditional_reply("connected")
+    def set_channel_output(self, channel, output):
+        """
+            Sets the output status of a channel
+
+            Args:
+                channel: channel number
+                output: desired output status (ON, OFF)
+        """
+
+        self._device.set_output(channel, output)
