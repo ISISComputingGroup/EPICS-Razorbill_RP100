@@ -17,3 +17,5 @@ relPaths.sh
 /documentation/
 *_info_positions.req
 *_info_settings.req
+*.pyc
+/system_tests/test-reports/
