@@ -1,7 +1,12 @@
+#######################################
+#   Razorbill RP100 Strain Cell PSU   #
+#######################################
+
+#   Output
 
 record(bi, "$(P)CH$(CHANNEL):OUTPUT")
 {
-    field(DESC, "Channel $(CHANNEL) Output")
+    field(DESC, "Channel $(CHANNEL) Output Status")
     field(DTYP, "stream")
     field(INP, "@rzbrp100.proto getOutput($(CHANNEL)) $(PORT)")
     field(SCAN, "1 second")
@@ -44,6 +49,8 @@ record(bo, "SIM:CH$(CHANNEL):OUTPUT") {
 alias("$(P)CH$(CHANNEL):OUTPUT", "$(P)CH$(CHANNEL):OUTPUT:SP")
 
 
+#   Voltage
+
 record(ai, "$(P)CH$(CHANNEL):VOLT")
 {
     field(DESC, "Channel $(CHANNEL) Voltage")
@@ -85,6 +92,8 @@ record(ao, "SIM:CH$(CHANNEL):VOLT") {
 alias("$(P)CH$(CHANNEL):VOLT", "$(P)CH$(CHANNEL):VOLT:SP")
 
 
+#   Voltage Slew Rate
+
 record(ai, "$(P)CH$(CHANNEL):VOLT:SLEWRATE")
 {
     field(DESC, "Channel $(CHANNEL) Voltage Slew Rate")
@@ -124,3 +133,4 @@ record(ai, "$(P)SIM:CH$(CHANNEL):VOLT:SLEWRATE:SP") {
 }
 
 alias("$(P)CH$(CHANNEL):VOLT:SLEWRATE", "$(P)CH$(CHANNEL):VOLT:SLEWRATE:SP")
+

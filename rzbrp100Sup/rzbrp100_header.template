@@ -1,3 +1,8 @@
+#######################################
+#   Razorbill RP100 Strain Cell PSU   #
+#######################################
+
+#   Simulation and Disable records
 
 record(bo, "$(P)SIM") 
 {
@@ -20,6 +25,9 @@ record(bo, "$(P)DISABLE")
     field(VAL,  "$(DISABLE=0)")
 }
 
+
+#   Identification String
+
 record(stringin, "$(P)ID")
 {
     field(PINI, "YES")
@@ -36,6 +44,6 @@ record(stringin, "$(P)ID")
 }
 
 record(stringout, "$(P)SIM:ID") {
-    field(VAL, "SIMULATED Razorbill RP100")
+    field(VAL, "SIMULATED Razorbill RP100 PSU")
 }
 
