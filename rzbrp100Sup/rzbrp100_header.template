@@ -23,16 +23,19 @@ record(bo, "$(P)DISABLE")
 record(stringin, "$(P)ID")
 {
     field(PINI, "YES")
-	field(DESC, "ID string for device")
+    field(DESC, "ID string for device")
     field(DTYP, "stream")
     field(INP, "@rzbrp100.proto getID $(PORT)")
     
-	field(SDIS, "$(P)DISABLE")
+    field(SDIS, "$(P)DISABLE")
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:ID")
     
     info(INTEREST, "MEDIUM")
-	info(archive, "VAL")
+    info(archive, "VAL")
 }
 
-record(stringout, "$(P)SIM:ID") {}
+record(stringout, "$(P)SIM:ID") {
+    field(VAL, "SIMULATED Razorbill RP100")
+}
+
