@@ -11,15 +11,22 @@ class Rzbrp100StreamInterface(StreamInterface):
     out_terminator = "\r\n"
 
     commands = {
-        # CmdBuilder(self.catch_all).arg("^#9.*$").eos().build(),  # Catch-all command for debugging
+        
+        # Catch-all command for debugging
+        CmdBuilder(self.catch_all).arg("^#9.*$").eos().build(),
         CmdBuilder("get_id").escape("*IDN?").eos().build(),
+        
+        # Commands for output
+        CmdBuilder("get_output").escape("OUTP").int().escape("?").eos().build(),
+        CmdBuilder("set_output").escape("OUTP").int().escape(" ").int().eos().build(),
 
+        # Commands for voltage
         CmdBuilder("get_voltage").escape("SOUR").int().escape(":VOLT:NOW?").eos().build(),
         CmdBuilder("set_voltage").escape("SOUR").int().escape(":VOLT ").float().eos().build(),
 
-        # Commands for output on and off (not currently required)
-        # CmdBuilder("get_channel_output").escape("OUTP%1?").eos().build(),
-        # CmdBuilder("set_channel_output").escape("OUTP%1%1").eos().build(),
+        # Commands for voltage slew rate
+        CmdBuilder("get_voltage_slewrate").escape("SOUR").int().escape(":VOLT:SLEW?").eos().build(),
+        CmdBuilder("set_voltage_slewrate").escape("SOUR").int().escape(":VOLT:SLEW ").float().eos().build(),
     }
 
 
@@ -34,11 +41,13 @@ class Rzbrp100StreamInterface(StreamInterface):
         """
         self.log.error("An error occurred at request " + repr(request) + ": " + repr(error))
 
+
     def catch_all(self, command):
         """
         Catch-all command for debugging
         """
         pass
+
 
     @conditional_reply("connected")
     def get_id(self):
@@ -52,6 +61,28 @@ class Rzbrp100StreamInterface(StreamInterface):
 
 
     @conditional_reply("connected")
+    def get_output(self, channel):
+        """
+            Sets the specified channel's output status
+                Args:
+                channel: channel number
+        """
+
+        return "{}".format(int(self._device.outputs[channel-1]))
+
+
+    @conditional_reply("connected")
+    def set_output(self, channel, output):
+        """
+            Sets the specified channel's output status
+                Args:
+                channel: channel number
+                output: desired output status (0, 1)
+        """
+        self._device.outputs[channel-1] = output
+
+
+    @conditional_reply("connected")
     def get_voltage(self, channel):
         """
             Gets the voltage of a channel
@@ -62,14 +93,40 @@ class Rzbrp100StreamInterface(StreamInterface):
 
         return "{}".format(float(self._device.voltages[channel-1]))
 
+
     @conditional_reply("connected")
-    def set_voltage(self, channel, output):
+    def set_voltage(self, channel, voltage):
         """
             Sets the voltage of a channel
 
             Args:
                 channel: channel number
-                output: desired output voltage
+                voltage: desired output voltage
         """
 
-        self._device.voltages[channel-1] = output
+        self._device.voltages[channel-1] = voltage
+
+
+    @conditional_reply("connected")
+    def get_voltage_slewrate(self, channel):
+        """
+            Gets the voltage slew rate of a channel
+
+            Args:
+                channel: channel number
+        """
+
+        return "{}".format(float(self._device.voltage_slewrates[channel-1]))
+
+
+    @conditional_reply("connected")
+    def set_voltage_slewrate(self, channel, voltage_slewrate):
+        """
+            Sets the voltage slew rate of a channel
+
+            Args:
+                channel: channel number
+                voltage_slewrate: desired voltage slew rate
+        """
+
+        self._device.voltage_slewrates[channel-1] = voltage_slewrate
