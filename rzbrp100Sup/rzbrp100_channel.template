@@ -1,0 +1,106 @@
+
+record(bi, "$(P)CH$(CHANNEL):OUTPUT")
+{
+	field(DESC, "Channel $(CHANNEL) Output")
+	field(DTYP, "stream")
+    field(INP, "@rzbrp100.proto getOutput($(CHANNEL)) $(PORT)")
+	field(SCAN, "1 second")
+	
+	field(ZNAM, "OFF")
+	field(ONAM, "ON")
+
+	field(ASG, "READONLY")
+	field(SDIS, "$(P)DISABLE")
+	
+	info(INTEREST, "HIGH")
+	info(archive, "VAL")
+
+	info(alarm, "RZBRP100")
+}
+
+record(bo, "$(P)CH$(CHANNEL):OUTPUT:SP") 
+{
+	field(DESC, "Channel $(CHANNEL) Output setpoint")
+    field(DTYP, "stream")
+    field(OUT,  "@rzbrp100.proto setOutput($(CHANNEL)) $(PORT)")
+
+	field(ZNAM, "OFF")
+	field(ONAM, "ON")
+
+	info(INTEREST, "HIGH")
+	info(archive, "VAL")
+
+	field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CH$(CHANNEL):OUTPUT:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(bi, "SIM:CH$(CHANNEL):OUTPUT:SP") {}
+
+record(ai, "$(P)CH$(CHANNEL):VOLT")
+{
+	field(DESC, "Channel $(CHANNEL) Voltage")
+	field(DTYP, "stream")
+    field(INP, "@rzbrp100.proto getVoltage($(CHANNEL)) $(PORT)")
+	field(SCAN, "1 second")
+	field(EGU, "V")
+	field(PREC, "3")
+	
+	field(ASG, "READONLY")
+	field(SDIS, "$(P)DISABLE")
+	
+	info(INTEREST, "HIGH")
+	info(archive, "VAL")
+}
+
+record(ao, "$(P)CH$(CHANNEL):VOLT:SP") 
+{
+	field(DESC, "Channel $(CHANNEL) Voltage setpoint")
+    field(DTYP, "stream")
+    field(OUT,  "@rzbrp100.proto setVoltage($(CHANNEL)) $(PORT)")
+	field(EGU, "V")
+	field(PREC, "3")
+
+	info(INTEREST, "HIGH")
+	info(archive, "VAL")
+
+	field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CH$(CHANNEL):VOLT:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ai, "SIM:CH$(CHANNEL):VOLT:SP") {}
+
+record(ai, "$(P)CH$(CHANNEL):VOLT:SLEWRATE")
+{
+	field(DESC, "Channel $(CHANNEL) Voltage Slew Rate")
+	field(DTYP, "stream")
+    field(INP, "@rzbrp100.proto getVoltageSlewRate($(CHANNEL)) $(PORT)")
+	field(SCAN, "1 second")
+	field(EGU, "V/s")
+	field(PREC, "3")
+
+	field(ASG, "READONLY")
+	field(SDIS, "$(P)DISABLE")
+	
+	info(INTEREST, "HIGH")
+	info(archive, "VAL")
+}
+
+record(ao, "$(P)CH$(CHANNEL):VOLT:SLEWRATE:SP") 
+{
+	field(DESC, "Channel $(CHANNEL) Voltage Slew Rate setpoint")
+    field(DTYP, "stream")
+    field(OUT,  "@rzbrp100.proto setVoltageSlewRate($(CHANNEL)) $(PORT)")
+	field(EGU,  "V/s")
+	field(PREC, "3")
+
+	info(INTEREST, "HIGH")
+	info(archive,  "VAL")
+
+	field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CH$(CHANNEL):VOLT:SLEWRATE:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ai, "$(P)SIM:CH$(CHANNEL):VOLT:SLEWRATE:SP") {}

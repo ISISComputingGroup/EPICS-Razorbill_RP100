@@ -9,20 +9,29 @@ getID {
     ExtraInput=Ignore;
 }
 
-getCH1Voltage {
-    out "SOUR1:VOLT:NOW?";
+getOutput {
+    out "OUTP\$1?";
+    in "%b";
+}
+
+setOutput {
+    out "OUTP\$1 %b";
+}
+
+getVoltage {
+    out "SOUR\$1:VOLT:NOW?";
     in "%f";
 }
 
-getCH2Voltage {
-    out "SOUR2:VOLT:NOW?";
+setVoltage {
+    out "SOUR\$1:VOLT %f";
+}
+
+getVoltageSlewRate {
+    out "SOUR\$1:VOLT:SLEW?";
     in "%f";
 }
 
-setCH1Voltage {
-    out "SOUR1:VOLT %f";
-}
-
-setCH2Voltage {
-    out "SOUR2:VOLT %f";
+setVoltageSlewRate {
+    out "SOUR\$1:VOLT:SLEW %f";
 }
