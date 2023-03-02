@@ -1,6 +1,3 @@
-#######################################
-#   Razorbill RP100 Strain Cell PSU   #
-#######################################
 
 #   Output
 
@@ -9,7 +6,7 @@ record(bi, "$(P)CH$(CHANNEL):OUTPUT")
     field(DESC, "Channel $(CHANNEL) Output Status")
     field(DTYP, "stream")
     field(INP, "@rzbrp100.proto getOutput($(CHANNEL)) $(PORT)")
-    field(SCAN, "1 second")
+    field(SCAN, "I/O Intr")
     
     field(ZNAM, "OFF")
     field(ONAM, "ON")
@@ -41,13 +38,6 @@ record(bo, "$(P)CH$(CHANNEL):OUTPUT:SP")
     info(archive, "VAL")
 }
 
-record(bo, "SIM:CH$(CHANNEL):OUTPUT") {
-    field(SCAN, "Passive")
-    field(DTYP, "Soft Channel")
-}
-
-alias("$(P)CH$(CHANNEL):OUTPUT", "$(P)CH$(CHANNEL):OUTPUT:SP")
-
 
 #   Voltage
 
@@ -56,7 +46,7 @@ record(ai, "$(P)CH$(CHANNEL):VOLT")
     field(DESC, "Channel $(CHANNEL) Voltage")
     field(DTYP, "stream")
     field(INP, "@rzbrp100.proto getVoltage($(CHANNEL)) $(PORT)")
-    field(SCAN, "1 second")
+    field(SCAN, "I/O Intr")
     field(EGU, "V")
     field(PREC, "3")
 
@@ -84,13 +74,6 @@ record(ao, "$(P)CH$(CHANNEL):VOLT:SP")
     info(archive, "VAL")
 }
 
-record(ao, "SIM:CH$(CHANNEL):VOLT") {
-    field(SCAN, "Passive")
-    field(DTYP, "Soft Channel")
-}
-
-alias("$(P)CH$(CHANNEL):VOLT", "$(P)CH$(CHANNEL):VOLT:SP")
-
 
 #   Voltage Slew Rate
 
@@ -99,7 +82,7 @@ record(ai, "$(P)CH$(CHANNEL):VOLT:SLEWRATE")
     field(DESC, "Channel $(CHANNEL) Voltage Slew Rate")
     field(DTYP, "stream")
     field(INP, "@rzbrp100.proto getVoltageSlewRate($(CHANNEL)) $(PORT)")
-    field(SCAN, "1 second")
+    field(SCAN, "I/O Intr")
     field(EGU, "V/s")
     field(PREC, "3")
 
@@ -127,10 +110,49 @@ record(ao, "$(P)CH$(CHANNEL):VOLT:SLEWRATE:SP")
     info(archive,  "VAL")
 }
 
+
+#   Simulation Records
+
+#   Output
+
+record(bo, "SIM:CH$(CHANNEL):OUTPUT") {
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(bi, "SIM:CH$(CHANNEL):OUTPUT:SP") {
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+# alias("$(P)SIM:CH$(CHANNEL):OUTPUT", "$(P)SIM:CH$(CHANNEL):OUTPUT:SP")
+
+
+#   Voltage
+
+record(ao, "SIM:CH$(CHANNEL):VOLT") {
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ai, "SIM:CH$(CHANNEL):VOLT:SP") {
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+# alias("$(P)SIM:CH$(CHANNEL):VOLT", "$(P)SIM:CH$(CHANNEL):VOLT:SP")
+
+
+#   Voltage Slew Rate
+
+record(ao, "$(P)SIM:CH$(CHANNEL):VOLT:SLEWRATE") {
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
 record(ai, "$(P)SIM:CH$(CHANNEL):VOLT:SLEWRATE:SP") {
     field(SCAN, "Passive")
     field(DTYP, "Soft Channel")
 }
 
-alias("$(P)CH$(CHANNEL):VOLT:SLEWRATE", "$(P)CH$(CHANNEL):VOLT:SLEWRATE:SP")
-
+# alias("$(P)SIM:CH$(CHANNEL):VOLT:SLEWRATE", "$(P)SIM:CH$(CHANNEL):VOLT:SLEWRATE:SP")

@@ -13,7 +13,9 @@ class Rzbrp100StreamInterface(StreamInterface):
     commands = {
         
         # Catch-all command for debugging
-        CmdBuilder(self.catch_all).arg("^#9.*$").eos().build(),
+        CmdBuilder("catch_all").arg("^#9.*$").eos().build(),
+        
+        # Command to return ID string
         CmdBuilder("get_id").escape("*IDN?").eos().build(),
         
         # Commands for output
@@ -56,7 +58,6 @@ class Rzbrp100StreamInterface(StreamInterface):
 
         :return:  Device ID string
         """
-
         return "{}".format(self._device.id)
 
 
@@ -67,7 +68,6 @@ class Rzbrp100StreamInterface(StreamInterface):
                 Args:
                 channel: channel number
         """
-
         return "{}".format(int(self._device.outputs[channel-1]))
 
 
@@ -90,7 +90,6 @@ class Rzbrp100StreamInterface(StreamInterface):
             Args:
                 channel: channel number
         """
-
         return "{}".format(float(self._device.voltages[channel-1]))
 
 
@@ -103,7 +102,6 @@ class Rzbrp100StreamInterface(StreamInterface):
                 channel: channel number
                 voltage: desired output voltage
         """
-
         self._device.voltages[channel-1] = voltage
 
 
@@ -115,7 +113,6 @@ class Rzbrp100StreamInterface(StreamInterface):
             Args:
                 channel: channel number
         """
-
         return "{}".format(float(self._device.voltage_slewrates[channel-1]))
 
 
@@ -128,5 +125,4 @@ class Rzbrp100StreamInterface(StreamInterface):
                 channel: channel number
                 voltage_slewrate: desired voltage slew rate
         """
-
         self._device.voltage_slewrates[channel-1] = voltage_slewrate
