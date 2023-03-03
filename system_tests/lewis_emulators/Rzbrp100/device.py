@@ -26,3 +26,6 @@ class SimulatedRzbrp100(StateMachineDevice):
     def _get_transition_handlers(self):
         return OrderedDict([
         ])
+
+    def reset(self):
+        self._initialize_data()

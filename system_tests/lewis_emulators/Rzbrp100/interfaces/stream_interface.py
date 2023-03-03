@@ -49,7 +49,10 @@ class Rzbrp100StreamInterface(StreamInterface):
         Catch-all command for debugging
         """
         pass
-
+    
+    def reset(self):
+        self.device.reset()
+        return self.out_terminator
 
     @conditional_reply("connected")
     def get_id(self):
