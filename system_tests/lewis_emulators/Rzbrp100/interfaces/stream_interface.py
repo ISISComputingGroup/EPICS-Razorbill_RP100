@@ -11,10 +11,7 @@ class Rzbrp100StreamInterface(StreamInterface):
     out_terminator = "\r\n"
 
     commands = {
-        
-        # Catch-all command for debugging
-        CmdBuilder("catch_all").arg("^#9.*$").eos().build(),
-        
+
         # Command to return ID string
         CmdBuilder("get_id").escape("*IDN?").eos().build(),
         

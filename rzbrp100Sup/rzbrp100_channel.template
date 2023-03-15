@@ -6,7 +6,7 @@ record(bi, "$(P)CH$(CHANNEL):OUTPUT")
     field(DESC, "Channel $(CHANNEL) Output Status")
     field(DTYP, "stream")
     field(INP, "@rzbrp100.proto getOutput($(CHANNEL)) $(PORT)")
-    field(SCAN, "2 second")
+    field(SCAN, "1 second")
     
     field(ZNAM, "OFF")
     field(ONAM, "ON")
@@ -34,7 +34,7 @@ record(bo, "$(P)CH$(CHANNEL):OUTPUT:SP")
     field(SIOL, "$(P)SIM:CH$(CHANNEL):OUTPUT:SP PP")
     field(SDIS, "$(P)DISABLE")
 
-    info(INTEREST, "HIGH")
+    info(INTEREST, "LOW")
     info(archive, "VAL")
 }
 
@@ -48,7 +48,7 @@ record(ai, "$(P)CH$(CHANNEL):VOLT")
     field(DESC, "Channel $(CHANNEL) Voltage")
     field(DTYP, "stream")
     field(INP, "@rzbrp100.proto getVoltage($(CHANNEL)) $(PORT)")
-    field(SCAN, "2 second")
+    field(SCAN, "1 second")
     field(EGU, "V")
     field(PREC, "3")
 
@@ -72,7 +72,7 @@ record(ao, "$(P)CH$(CHANNEL):VOLT:SP")
     field(SIOL, "$(P)SIM:CH$(CHANNEL):VOLT:SP PP")
     field(SDIS, "$(P)DISABLE")
 
-    info(INTEREST, "HIGH")
+    info(INTEREST, "LOW")
     info(archive, "VAL")
 }
 
@@ -86,7 +86,7 @@ record(ai, "$(P)CH$(CHANNEL):VOLT:SLEWRATE")
     field(DESC, "Channel $(CHANNEL) Voltage Slew Rate")
     field(DTYP, "stream")
     field(INP, "@rzbrp100.proto getVoltageSlewRate($(CHANNEL)) $(PORT)")
-    field(SCAN, "2 second")
+    field(SCAN, "1 second")
     field(EGU, "V/s")
     field(PREC, "3")
 
@@ -110,7 +110,7 @@ record(ao, "$(P)CH$(CHANNEL):VOLT:SLEWRATE:SP")
     field(SIOL, "$(P)SIM:CH$(CHANNEL):VOLT:SLEWRATE:SP PP")
     field(SDIS, "$(P)DISABLE")
 
-    info(INTEREST, "HIGH")
+    info(INTEREST, "LOW")
     info(archive,  "VAL")
 }
 
