@@ -1,0 +1,49 @@
+#######################################
+#   Razorbill RP100 Strain Cell PSU   #
+#######################################
+
+#   Simulation and Disable records
+
+record(bo, "$(P)SIM") 
+{
+    field(DESC, "Simulation Mode")
+    field(PINI, "YES")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+    field(VAL,  "$(RECSIM=0)")
+}
+
+record(bo, "$(P)DISABLE") 
+{
+    field(DESC, "Disable Comms")
+    field(PINI, "YES")
+    field(OMSL, "supervisory")
+    field(ZNAM, "COMMS ENABLED")
+    field(ONAM, "COMMS DISABLED")
+    field(VAL,  "$(DISABLE=0)")
+}
+
+
+#   Identification String
+
+record(stringin, "$(P)ID")
+{
+    field(PINI, "YES")
+    field(DESC, "ID string for device")
+    field(DTYP, "stream")
+    field(INP, "@rzbrp100.proto getID $(PORT)")
+    
+    field(SDIS, "$(P)DISABLE")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:ID")
+    
+    info(INTEREST, "MEDIUM")
+    info(archive, "VAL")
+}
+
+record(stringout, "$(P)SIM:ID") {
+    field(VAL, "SIMULATED Razorbill RP100 PSU")
+}
+

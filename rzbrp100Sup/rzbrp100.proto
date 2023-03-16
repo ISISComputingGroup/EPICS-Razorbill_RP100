@@ -1,0 +1,37 @@
+OutTerminator = "\r\n";
+InTerminator = "\r\n";
+replytimeout = 1000;
+
+
+getID {
+    out "*IDN?";
+    in "%39c";
+    ExtraInput=Ignore;
+}
+
+getOutput {
+    out "OUTP\$1?";
+    in "%b";
+}
+
+setOutput {
+    out "OUTP\$1 %b";
+}
+
+getVoltage {
+    out "SOUR\$1:VOLT:NOW?";
+    in "%f";
+}
+
+setVoltage {
+    out "SOUR\$1:VOLT %f";
+}
+
+getVoltageSlewRate {
+    out "SOUR\$1:VOLT:SLEW?";
+    in "%f";
+}
+
+setVoltageSlewRate {
+    out "SOUR\$1:VOLT:SLEW %f";
+}

@@ -1,0 +1,14 @@
+# ===============================
+# Simulation and Disable records
+# ===============================
+
+file rzbrp100_header.template {
+    pattern { RECSIM, DISABLE }
+    { "\$(RECSIM)", "\$(DISABLE)" }
+}
+
+file rzbrp100_channel.template {
+    pattern { CHANNEL }
+    { "1" }
+    { "2" }
+}
